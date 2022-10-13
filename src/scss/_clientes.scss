@@ -1,0 +1,94 @@
+#org{
+    width: 100%;
+    height: 50%;
+    margin-top: -1px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#panelResultados{
+  height: 74vh;
+  display: flex !important;
+  flex-flow: column !important;
+
+}
+
+#panel{
+  flex-grow: 1;
+  height: fit-content;
+
+ 
+}
+
+#tablas{
+  overflow-y: scroll !important;
+}
+
+
+.cliente-head{
+  border-bottom: 1px solid grey;
+  width: 50%;
+  margin: auto;
+  padding-bottom: 9px;
+}
+
+#obsUif{
+  width: 100%;
+  height: 70px;
+  resize: none;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+
+#obsUif:focus{
+  outline: none;
+
+}
+
+.blink_me {
+  animation: blinker 4s linear infinite;
+}
+
+
+
+@keyframes blinker {
+  0%{
+    opacity: 1;
+  }
+
+  90%{
+    opacity: 1;
+  }
+
+  95% {
+    opacity: 0;
+  }
+}
+
+.negative {
+  color:#ff0000;
+}
+
+.positive {
+  color: #31671B
+}
+
+.nuevaExclusion{
+  
+}
+.btn.btn-blue{
+  // background-color: #343a40 !important;
+  background-color: #31671B !important;
+}
+.my-button{
+  background-color: red;
+}

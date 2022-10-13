@@ -1,0 +1,93 @@
+.v-align-sub{
+    vertical-align: sub;
+}
+.v-align-bottom{
+    vertical-align: bottom;
+}
+.v-align-middle{
+    vertical-align: middle !important;
+}
+.v-align-top{
+    vertical-align: text-top !important;
+}
+
+.text-small{
+    font-size: small;
+}
+
+.text-title{
+    font-size: initial;
+}
+
+.text-x-small{
+    font-size: x-small;
+}
+
+.w-90{
+    width: 90% !important;
+}
+
+.w-100{
+    width: 100% !important;
+}
+
+.w-95{
+    width: 95% !important;
+}
+
+.f-left{
+    float: left;
+}
+
+.f-right{
+    float: right;
+}
+
+.capital{
+    text-transform: lowercase !important;
+}
+
+.uppercase{
+    text-transform: uppercase !important;
+}
+
+.table-fixed{
+    table-layout: fixed !important;
+}
+
+
+.change{
+    will-change: auto !important;
+}
+
+.change-o{
+    will-change: opacity !important;
+}
+
+.change-p{
+    will-change: position !important;
+}
+.op{
+    opacity: 0;
+}
+
+.light-shadow{
+    box-shadow: 0 .1rem 1rem rgba(0, 0, 0, 0.082)!important;
+}
+
+.fit-width{
+    width: fit-content !important;
+}
+
+.customInput{
+    margin: 0;
+    padding: 7px 9px 8px;
+    
+    border-color: lightgray;
+    
+    
+    color: #333;
+    font-size: 1em;
+    border-radius: 4px;
+    min-height: 30px;
+}

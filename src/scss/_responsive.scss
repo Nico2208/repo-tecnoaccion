@@ -1,0 +1,71 @@
+@media only screen and (max-width: 600px) {
+    body, html{
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+    #clientes{
+        margin-bottom: 25px;
+    }
+
+    #logoLotline{
+        width: 100% !important;
+        margin-left: 0% !important;
+        margin-top: 50% !important;
+    }
+
+    #navbarNavDropdown{
+        ul{ 
+            font-weight: bold;
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            li{
+                margin-top:15px
+            }
+        }
+    }
+
+    .login{
+        margin-top: 15px;
+    }
+    
+    #loginComp{
+        width: 90% !important;
+    }
+    
+    .home-btn{
+        width: 120%!important;
+        margin-left: -10% !important;
+
+        b{
+            font-size: 28px !important;
+        }
+        
+    }
+
+    #reportesMedida{
+        margin-top: 10% !important;
+    }
+
+    #tablaPivot{
+        width: 90% !important;
+
+        .dxc-chart{
+            position: absolute !important;
+        }
+        #pivotgrid{
+            margin-top: 72%;
+        }
+    }
+
+    #pie{
+        .dxc-title{
+            margin-right: 200px !important;
+            text{
+                margin-right: 200px !important;
+                
+            }
+            
+        }
+    }
+  }

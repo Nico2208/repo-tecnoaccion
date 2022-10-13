@@ -1,0 +1,16 @@
+.nav-item{
+    margin-right: 50px;
+}
+
+nav{
+    position: sticky !important;
+    z-index: 3;
+    top: 0;
+
+    
+}
+
+.home-btn:hover{
+    background-color: black !important;
+    transition: 0.7s !important;
+}

@@ -1,0 +1,44 @@
+.dx-popup-title{
+    background-color: #343a40 !important;
+    color: white !important;
+
+    i{
+        color: white !important; 
+    }
+}
+
+.dx-datagrid-edit-popup{
+    margin-top: 100px !important;
+}
+
+.dx-link-edit:hover{
+    color: black !important;
+    transition: 0.5s !important;
+}
+
+.dx-treeview-item-without-checkbox.dx-state-focused > .dx-treeview-item{
+    background-color: #353B41 !important;
+}
+
+.dx-button-black{
+    margin-top: 20px;
+    float: right;
+    .dx-button-content{
+        color: #fff;
+        background-color: #343a40;
+        border-color: #343a40;
+    }
+
+    .dx-button-content:hover {
+        color: #fff;
+        background-color: #23272b;
+        border-color: #1d2124;
+        transition: 0.5s;
+    }
+}
+
+#reportesMedida{
+    .dx-field-item-label{
+        font-weight: bold !important;
+    }
+}
