@@ -93,50 +93,13 @@ class Clientes extends React.Component {
             palabraACtual: ""
         }
     }
-    handleFiltarPorDNI(palabra) {
-        alert(palabra)
-        let statusCode = "";
-        let cerrarSesion = false;
-        let url = `http://billetera.tecnoaccion.com.ar:8704/api-operador/admin/usuarios?documento=${palabra}`
-        fetch(url, {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json; charset=utf-8',
-                'Authorization': 'Bearer ' + this.props.getKeyLogin()
-            },
-        }, process.env.REACT_APP_FETCH_TIMEOUT, 'Error de timeout')
+    handleFiltarPorDNI = (palabra) => {
+        // let filtrados = this.state.listadoUsuarios.filter((usuario)=> usuario.documento === palabra)
+        let filtrados = this.state.listadoUsuarios.filter((usuario)=> usuario.documento === palabra)
+this.actualizarListadoUsuarios(filtrados)
+        console.log(filtrados)
 
-            .then(respPromise => {
-                statusCode = respPromise.status;
-                // if (respPromise.status == process.env.REACT_APP_CODIGO_CERRO_SESION) {
-                //     cerrarSesion = true;
-                // }
-                return respPromise.json();
-            })
-            .then(json => {
-
-                console.log(json)
-                this.actualizarListadoUsuarios(json.items)
-                // this.state.listadoUsuarios = json.items
-                // if (json.status === "ok") {
-
-                //     this.state.listadoUif.items = json.items;
-                //     this.state.listadoUif.paginado = true;
-                //     this.state.listadoUif.totalPages = json.totalPages;
-                //     this.state.listadoUif.currentPage = json.currentPage;
-                //     this.state.listadoUif.totalItems = json.totalItems;
-
-                //     this.setState({ listadoUif: this.state.listadoUif });
-                //     $("#pagConsListadoUif").val(json.currentPage + 1);
-
-                // } else {
-                //     this.props.mensajeErrorWS('Listado UIF', json.errores, cerrarSesion);
-                // }
-            })
-            .catch((error) => {
-                this.props.mensajeErrorGeneral();
-            })
+        
     }
     handlePalabra() {
         let nroDocu = $('#inputDNI').val();
@@ -2075,12 +2038,12 @@ class Clientes extends React.Component {
                                             </button>
                                         </div>
                                         <div className="modal-body">
-                                            <form class="form-inline">
-                                                <div class="form-group mx-sm-3 mb-2">
-                                                    <label for="inputDNI" class="sr-only">DNI</label>
-                                                    <input type="text" class="form-control" id="inputDNI" placeholder="22312456" onChange={this.handlePalabra} value={this.state.palabraACtual} />
+                                            <form className="form-inline">
+                                                <div className="form-group mx-sm-3 mb-2">
+                                                    <label htmlFor="inputDNI" className="sr-only">DNI</label>
+                                                    <input type="text" className="form-control" id="inputDNI" placeholder="22312456" onChange={this.handlePalabra} value={this.state.palabraACtual} />
                                                 </div>
-                                                <button type="button" class="btn btn-primary mb-2" onClick={() =>  this.handleFiltarPorDNI(this.state.palabraACtual) }>Buscar</button>
+                                                <button type="button" className="btn btn-primary mb-2" onClick={() =>  this.handleFiltarPorDNI(this.state.palabraACtual) }>Buscar</button>
                                                 {
                                                     this.state.palabraACtual.length}
                                             </form>
