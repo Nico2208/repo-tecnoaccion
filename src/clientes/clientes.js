@@ -96,7 +96,7 @@ class Clientes extends React.Component {
     handleFiltarPorDNI = (palabra) => {
         // let filtrados = this.state.listadoUsuarios.filter((usuario)=> usuario.documento === palabra)
         let filtrados = this.state.listadoUsuarios.filter((usuario)=> usuario.documento === palabra)
-this.actualizarListadoUsuarios(filtrados)
+        this.actualizarListadoUsuarios(filtrados)
         console.log(filtrados)
 
         
