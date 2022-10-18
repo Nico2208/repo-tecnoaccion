@@ -27,8 +27,8 @@ a:hover{
 
 #logoLotline{
     opacity: 0.3;
-    margin-left: 50%;
-    margin-top: 30%;
+    // margin-left: 50%;
+    // margin-top: 30%;
 }
 
 .jconfirm-title-c{
@@ -106,4 +106,12 @@ a:hover{
     color: #000;
     background-color: white;
     border: 1px dotted lightgray;
+}
+.changecolor{
+    background-color: red !important;
+}
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

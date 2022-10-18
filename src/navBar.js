@@ -75,7 +75,7 @@ class NavBar extends React.Component {
 
     render() {
         return (
-            <nav className="navbar navbar-expand-sm navbar-dark bg-dark pr-4 pl-4 shadow">
+            <nav className="navbar navbar-expand-sm navbar-dark bg-dark pr-4 pl-4 shadow changecolor">
                 <Link className="navbar-brand text-light" to="/">
                     <img src={logoNav} alt="logo" width="90px" />
                     <span className="ml-2 text-center text-small text-white mb-1 pt-0"> Ver: {this.props.version}</span>
@@ -156,7 +156,14 @@ class NavBar extends React.Component {
                 </div>
 
                 <div className="login">
-
+                    {!this.props.isLogueado() &&
+                        <div className='toggle'>
+                            <label className='switch'>
+                                <input type="checkbox" />
+                                <span className="slider round"></span>
+                            </label>
+                        </div>
+                    }
                     {!this.props.isLogueado() &&
                         <Link to="/login">
                             <span>Ingresar</span>

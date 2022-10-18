@@ -3649,8 +3649,8 @@ a:hover {
 
 #logoLotline {
   opacity: 0.3;
-  margin-left: 50%;
-  margin-top: 30%;
+  /* margin-left: 50%;
+  margin-top: 30%; */
 }
 
 .jconfirm-title-c {
@@ -3725,5 +3725,20 @@ a:hover {
   color: #000;
   background-color: white;
   border: 1px dotted lightgray;
+}
+
+.changecolor{
+  background-color: #003249 !important;
+}
+.changecolor a span{
+  color: #80CED7 !important;
+}
+.login a{
+  color: #80CED7 !important;
+}
+.logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 /*# sourceMappingURL=style.css.map */
