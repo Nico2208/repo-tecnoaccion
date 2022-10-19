@@ -21,6 +21,8 @@ class Clientes extends React.Component {
     constructor(props) {
         super(props);
 
+        
+        //Renombre funciones con .bind(this) en el constructor de la clase
 
         this.inicializarCliente = this.inicializarCliente.bind(this);
 
@@ -88,11 +90,14 @@ class Clientes extends React.Component {
         this.handlePalabra = this.handlePalabra.bind(this)
         this.handleFiltarPorDNI = this.handleFiltarPorDNI.bind()
 
+
+        
         this.state = {
             listadoUsuarios: [],
             palabraACtual: ""
         }
     }
+
     handleFiltarPorDNI = (palabra) => {
         // let filtrados = this.state.listadoUsuarios.filter((usuario)=> usuario.documento === palabra)
         let filtrados = this.state.listadoUsuarios.filter((usuario)=> usuario.documento === palabra)
@@ -101,10 +106,16 @@ class Clientes extends React.Component {
 
         
     }
-    handlePalabra() {
+
+    handlePalabra() { //Modifica el valor de palabraActial tomando el DNI ingresado por formulario
+
+
+
         let nroDocu = $('#inputDNI').val();
+
         this.setState({ palabraACtual: nroDocu })
     }
+
 
     handleListarUsuarios() {
         $('.my-button').addClass('btn btn-success');

@@ -26,6 +26,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
 
+
+
 // Diccionarios para lenguaje español
 import esMessages from "devextreme/localization/messages/es.json";
 import { locale, loadMessages } from "devextreme/localization";
@@ -51,22 +53,22 @@ global.appVersion = packageJson.version;
 		organizacionesClientes: []
 	} )
 
-	const navigate = usenavigate()
+	//const navigate = useNavigate();
 
-	isLogueado() {
+	function isLogueado(){
 		return estado.logueado;
-	}
+	};
 
-	getIDBilletera(codigoOrganizacion) {
+	function getIDBilletera(codigoOrganizacion) {
 		let respuesta = "";
 		let i = 0;
 		for (i = 0; i < estado.organizacionesClientes.length; ++i) {
 			if (estado.organizacionesClientes[i].codigoOrganizacion == codigoOrganizacion)
 				return estado.organizacionesClientes[i].billeteraId;
 		}
-	}
+	};
 
-	cerrarSesion() {
+	function cerrarSesion() {
 
 		let imagen = "<div class='text-center pt-2 mb-2'><span class='material-icons mr-2 text-warning text-center' style='font-size: 50px'>error_outline</span></div>";
 
@@ -104,19 +106,19 @@ global.appVersion = packageJson.version;
 
 	const setOrganizacionesCliente = (aOrganizaciones) => {
 
-		setEstado(...estado, [ organizacionesClientes ]: aOrganizaciones });
+		setEstado({...estado, [ estado.organizacionesClientes ]: aOrganizaciones} );
 
 	}
 
 
-	volverAlInicio() {
-		if ( props.history != null )
-			navigate('/');
+	const volverAlInicio = async () => {
+		//navigate('/')
 	}
+
 
 	
 
-	mensajeErrorWS(titulo, errores, cerrarSesion_bool) { //cerrarSesion es un booleano distinto de la funcion
+	function mensajeErrorWS(titulo, errores, cerrarSesion_bool) { //cerrarSesion es un booleano distinto de la funcion
 
 
 		let imagen = "<div class='text-center pt-2 mb-2'><span class='material-icons mr-2 text-warning text-center' style='font-size: 50px'>error_outline</span></div>";
@@ -124,7 +126,9 @@ global.appVersion = packageJson.version;
 		
 		let mensaje = "";
 
-		for (i = 0; i < errores.length; ++i) {
+
+
+		for ( let i = 0; i < errores.length; ++i) {
 			mensaje = mensaje + "<div>" + errores[i].error + "</div>";
 		}
 
@@ -144,12 +148,12 @@ global.appVersion = packageJson.version;
 
 	}
 
-	getOrganizaciones() {
+	function getOrganizaciones() {
 		return estado.organizaciones;
 	}
 
 
-	getOrganizacionesHab() {
+	function getOrganizacionesHab() {
 
 		//Devuelve un array con las organizaciones de clientes que tengan igual codigo que las organizaciones
 
@@ -168,11 +172,11 @@ global.appVersion = packageJson.version;
 	}
 
 
-	getKey() {
+	function getKey() {
 		return estado.key;
 	}
 
-	logueado(aKey, aNombre, aApellido, aOrganizaciones) {
+	function logueado(aKey, aNombre, aApellido, aOrganizaciones) {
 		setEstado(
 			{
 				logueado: true,
@@ -182,11 +186,11 @@ global.appVersion = packageJson.version;
 				organizaciones: aOrganizaciones
 			}
 		);
-	}
+	};
 
 
 
-	mensajeErrorGeneral() {
+	function mensajeErrorGeneral() {
 
 
 		let imagen = "<div class='text-center pt-2 mb-2'><span class='material-icons mr-2 text-warning text-center' style='font-size: 50px'>error_outline</span></div>";
@@ -209,37 +213,63 @@ global.appVersion = packageJson.version;
 
 		<Router>
 
-			<NavBar getKeyLogin={this.getKey} cerrarSesion={this.cerrarSesion} mensajeErrorGeneral={this.mensajeErrorGeneral} mensajeErrorWS={this.mensajeErrorWS} isLogueado={this.isLogueado} nombreUsuario={this.state.nombre} apellidoUsuario={this.state.apellido} version={global.appVersion} />
+			<NavBar getKeyLogin={getKey} cerrarSesion={cerrarSesion} mensajeErrorGeneral={mensajeErrorGeneral} mensajeErrorWS={mensajeErrorWS} isLogueado={isLogueado} nombreUsuario={estado.nombre} apellidoUsuario={estado.apellido} version={global.appVersion}/>
 
-			<Routes></Routes>
+			<Routes>
+			
+				<Route exact path="/" element={ <Home isLogueado={isLogueado} /> }/>
+
+				//una render prop es una prop que recibe una función que un componente utiliza para saber qué renderizar.
+
+
+				{isLogueado() &&
+					<Route path="/clientes" element={ <Clientes getIDBilletera={getIDBilletera} setOrganizacionesCliente={setOrganizacionesCliente} getKeyLogin={getKey} getOrganizacionesHab={getOrganizacionesHab} getOrganizaciones={getOrganizaciones} mensajeErrorWS={mensajeErrorWS} mensajeErrorGeneral={mensajeErrorGeneral} /> }/>
+				}
+
+
+				{isLogueado() &&
+					<Route path="/reportes" element={ <Reportes getKeyLogin={getKey} getOrganizaciones={getOrganizaciones} mensajeErrorWS={mensajeErrorWS} mensajeErrorGeneral={mensajeErrorGeneral} /> }/>
+				}
 
 
 
 
+				{isLogueado() &&
+					<Route path="/reportesMedida" element={ <ReportesMedida getKeyLogin={getKey} getOrganizaciones={getOrganizaciones} mensajeErrorWS={mensajeErrorWS} mensajeErrorGeneral={mensajeErrorGeneral}/> }/>
+				}
 
 
+
+				{isLogueado() &&
+					<Route path="/tablero" element={ <Tablero getKeyLogin={getKey} getOrganizaciones={getOrganizaciones} mensajeErrorWS={mensajeErrorWS} mensajeErrorGeneral={mensajeErrorGeneral}/> }/>
+				}
+
+
+
+				{isLogueado() &&
+					<Route path="/cambioMasivoAg" element={ <CambioMasivoAg getKeyLogin={getKey} getOrganizaciones={getOrganizaciones} mensajeErrorWS={mensajeErrorWS} mensajeErrorGeneral={mensajeErrorGeneral}/> }/>
+				}
+
+				{isLogueado() &&
+					<Route path="/sistema" element={ <Sistema getKeyLogin={getKey} getOrganizaciones={getOrganizaciones} mensajeErrorWS={mensajeErrorWS} mensajeErrorGeneral={mensajeErrorGeneral}/> }/>
+				}
+
+
+
+				{isLogueado() &&
+					<Route path="/test" element={ <Test getKeyLogin={getKey} getOrganizaciones={getOrganizaciones} mensajeErrorWS={mensajeErrorWS} mensajeErrorGeneral={mensajeErrorGeneral}/> }/>
+				}
+
+
+				<Route path="/login" element={ <Login logueado={logueado} mensajeErrorWS={mensajeErrorWS} mensajeErrorGeneral={mensajeErrorGeneral}/> }/>
+
+				
+			</Routes>
 
 
 		</Router>
 
 	)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }*/
 
 
@@ -428,7 +458,7 @@ class ContenedorPlataforma extends React.Component {
 	render() {
 		return (
 			<Router>
-				<NavBar getKeyLogin={this.getKey} cerrarSesion={this.cerrarSesion} mensajeErrorGeneral={this.mensajeErrorGeneral} mensajeErrorWS={this.mensajeErrorWS} isLogueado={this.isLogueado} nombreUsuario={this.state.nombre} apellidoUsuario={this.state.apellido} version={global.appVersion} />
+				<NavBar getKeyLogin={this.getKey} cerrarSesion={this.cerrarSesion} mensajeErrorGeneral={this.mensajeErrorGeneral} mensajeErrorWS={this.mensajeErrorWS} isLogueado={this.isLogueado} nombreUsuario={this.state.nombre} apellidoUsuario={this.state.apellido} version={global.appVersion} /> 
 
 				<Switch>
 					<Route exact path="/">
