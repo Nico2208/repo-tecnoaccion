@@ -39,6 +39,122 @@ import CambioMasivoAg from './clientes/cambioMasivoAg.js';
 
 global.appVersion = packageJson.version;
 
+
+/*function ContenedorPlataforma ( props ) {
+
+	const [estado, setEstado] = useState( {
+		logueado: false,
+		key: '',
+		nombre: '',
+		apellido: '',
+		organizaciones: [],
+		organizacionesClientes: []
+	} )
+
+	const navigate = usenavigate()
+
+	isLogueado() {
+		return estado.logueado;
+	}
+
+	getIDBilletera(codigoOrganizacion) {
+		let respuesta = "";
+		let i = 0;
+		for (i = 0; i < estado.organizacionesClientes.length; ++i) {
+			if (estado.organizacionesClientes[i].codigoOrganizacion == codigoOrganizacion)
+				return estado.organizacionesClientes[i].billeteraId;
+		}
+	}
+
+	cerrarSesion() {
+
+		let imagen = "<div class='text-center pt-2 mb-2'><span class='material-icons mr-2 text-warning text-center' style='font-size: 50px'>error_outline</span></div>";
+
+		$.confirm({
+			title: imagen,
+			content: '<h4 class="text-center">Esta seguro que desea cerrar la sesion?</h4>',
+			buttons: {
+				cancelar: {
+					text: 'Cancelar',
+					btnClass: 'btn-outline-info',
+					keys: ['enter', 'shift'],
+					action: function () {
+						//close
+					}
+
+				},
+				aceptar: {
+					text: 'Aceptar',
+					btnClass: 'btn-info',
+					keys: ['enter', 'shift'],
+					action: function () {
+						setEstado({
+							logueado: false,
+							key: '',
+							nombre: '',
+							apellido: '',
+							organizaciones: []
+						});
+					}
+				}
+			}
+		});
+	}
+
+
+	const setOrganizacionesCliente = (aOrganizaciones) => {
+
+		setEstado(...estado, [ organizacionesClientes ]: aOrganizaciones });
+
+	}
+
+
+	volverAlInicio() {
+		if ( props.history != null )
+			navigate('/');
+	}
+
+	
+
+	mensajeErrorWS(titulo, errores, cerrarSesion_bool) { //cerrarSesion es un booleano distinto de la funcion
+
+
+		let imagen = "<div class='text-center pt-2 mb-2'><span class='material-icons mr-2 text-warning text-center' style='font-size: 50px'>error_outline</span></div>";
+
+		
+		let mensaje = "";
+
+		for (i = 0; i < errores.length; ++i) {
+			mensaje = mensaje + "<div>" + errores[i].error + "</div>";
+		}
+
+		$.alert({
+			title: imagen + ' ' + titulo,
+			content: '<div class="text-center pb-2 mt-2">' + mensaje + '</div>',
+			buttons: {
+				continuar: function () {
+					if (cerrarSesion_bool) {
+						cerrarSesion();
+						volverAlInicio();
+					}
+				}
+			}
+		});
+
+
+	}
+
+	getOrganizaciones() {
+		return estado.organizaciones;
+	}
+
+
+}*/
+
+
+
+
+
 class ContenedorPlataforma extends React.Component {
 
 	constructor(props) {
@@ -73,7 +189,7 @@ class ContenedorPlataforma extends React.Component {
 
 	isLogueado() {
 		return this.state.logueado;
-	}
+	} //listo
 
 	getIDBilletera(codigoOrganizacion) {
 		let respuesta = "";
@@ -83,7 +199,7 @@ class ContenedorPlataforma extends React.Component {
 				return this.state.organizacionesClientes[i].billeteraId;
 		}
 		return "";
-	}
+	}//listo
 
 	cerrarSesion() {
 
@@ -122,20 +238,20 @@ class ContenedorPlataforma extends React.Component {
 
 
 
-	}
+	} //listo
 
 	setOrganizacionesCliente(aOrganizaciones) {
 		this.setState({ organizacionesClientes: aOrganizaciones });
-	}
+	} //Listo
 
 	volverAlInicio() {
 		if (this.props.history != null)
 			this.props.history.push('/');
-	}
+	} //Listo
 
 	getOrganizaciones() {
 		return this.state.organizaciones;
-	}
+	} //Listo
 
 	getOrganizacionesHab() {
 		if (this.state.organizacionesClientes == null) return [];
@@ -216,7 +332,7 @@ class ContenedorPlataforma extends React.Component {
 		});
 
 
-	}
+	} //Listo
 
 	render() {
 		return (

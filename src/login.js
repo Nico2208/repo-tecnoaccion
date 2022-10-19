@@ -90,6 +90,7 @@ class Login extends React.Component {
 
 				if (json.status === "ok") {
 					this.props.logueado(json.key, json.nombre, json.apellido, json.organizaciones);
+					//Aca isLogueado pasa a True
 					this.props.history.push('/');
 				} else {
 					this.props.mensajeErrorWS('Login', json.errores, cerrarSesion);
