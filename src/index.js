@@ -149,6 +149,97 @@ global.appVersion = packageJson.version;
 	}
 
 
+	getOrganizacionesHab() {
+
+		//Devuelve un array con las organizaciones de clientes que tengan igual codigo que las organizaciones
+
+		if (estado.organizacionesClientes == null) return [];
+		let i, j = 0;
+		let organizaciones = [];
+		for (i = 0; i < estado.organizaciones.length; ++i) {
+			for (j = 0; j < estado.organizacionesClientes.length; ++j) {
+				if (estado.organizacionesClientes[j].codigoOrganizacion == estado.organizaciones[i].codigo) {
+					organizaciones.push(estado.organizacionesClientes[j]);
+				}
+			}
+		}
+
+		return organizaciones;
+	}
+
+
+	getKey() {
+		return estado.key;
+	}
+
+	logueado(aKey, aNombre, aApellido, aOrganizaciones) {
+		setEstado(
+			{
+				logueado: true,
+				key: aKey,
+				nombre: aNombre,
+				apellido: aApellido,
+				organizaciones: aOrganizaciones
+			}
+		);
+	}
+
+
+
+	mensajeErrorGeneral() {
+
+
+		let imagen = "<div class='text-center pt-2 mb-2'><span class='material-icons mr-2 text-warning text-center' style='font-size: 50px'>error_outline</span></div>";
+
+		$.alert({
+			title: imagen + "<h4>Ups. </h4>",
+			content: '<div class="text-center pb-2 mt-2">Favor reintente más tarde. Paga el wifi.</div>',
+			buttons: {
+				continuar: function () {
+
+				}
+			}
+		});
+
+
+	}
+
+
+	return(
+
+		<Router>
+
+			<NavBar getKeyLogin={this.getKey} cerrarSesion={this.cerrarSesion} mensajeErrorGeneral={this.mensajeErrorGeneral} mensajeErrorWS={this.mensajeErrorWS} isLogueado={this.isLogueado} nombreUsuario={this.state.nombre} apellidoUsuario={this.state.apellido} version={global.appVersion} />
+
+			<Routes></Routes>
+
+
+
+
+
+
+
+
+		</Router>
+
+	)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }*/
 
 
@@ -266,11 +357,11 @@ class ContenedorPlataforma extends React.Component {
 		}
 
 		return organizaciones;
-	}
+	} //Listo
 
 	getKey() {
 		return this.state.key;
-	}
+	} //Listo
 
 	logueado(aKey, aNombre, aApellido, aOrganizaciones) {
 		this.setState(
@@ -282,7 +373,7 @@ class ContenedorPlataforma extends React.Component {
 				organizaciones: aOrganizaciones
 			}
 		);
-	}
+	} //Listo
 
 	mensajeErrorGeneral() {
 
@@ -300,7 +391,7 @@ class ContenedorPlataforma extends React.Component {
 		});
 
 
-	}
+	}  //Listo
 
 
 
