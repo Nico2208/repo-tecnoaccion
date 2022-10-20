@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import NavBar from "./navBar.js"
 
 import Home from './home';
@@ -368,7 +367,9 @@ class ContenedorPlataforma extends React.Component {
 	volverAlInicio() {
 		if (this.props.history != null)
 			this.props.history.push('/');
-	} //Listo
+	} //Listo 
+
+	
 
 	getOrganizaciones() {
 		return this.state.organizaciones;

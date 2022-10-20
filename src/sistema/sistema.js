@@ -8,6 +8,58 @@ import Agencias from './agencias';
 import Roles from './roles';
 import Operadores from './operadores'
 
+
+/*
+
+function Sistema (props) {
+
+    const[ estado, setEstado ] = useState( {
+        pagina: 0,
+        agencias: { items: [] },
+        operadores: { items: [] }
+    } )
+
+    useEffect(
+        () => {
+            setEstado( { ..., [estado.agencias]: { items: "" } } )
+            //setState( { agencias: { items: "" } } )
+            ejecutarConsultaRoles();
+        },
+        []
+    )
+
+    cambioFiltroAg(codAg, localidad, estado){
+
+        if(codAg !== undefined){
+            setEstado({filtroAgCodAg: codAg})
+        }
+
+        if(localidad !== undefined){
+            setEstado({filtroAgLocalidad: localidad})
+        }
+
+        if(estado !== undefined){
+            if(estado === "Habilitada"){
+                this.setState({filtroAgEstado: true})
+            }else if(estado === "Deshabilitada"){
+                this.setState({filtroAgEstado: false})
+            }
+            
+        }
+
+    }
+
+}
+
+export default Sistema
+
+
+*/
+
+
+
+
+
 class Sistema extends React.Component {
 
     constructor(props){
