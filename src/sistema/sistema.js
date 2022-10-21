@@ -21,8 +21,7 @@ function Sistema (props) {
 
     useEffect(
         () => {
-            setEstado( { ..., [estado.agencias]: { items: "" } } )
-            //setState( { agencias: { items: "" } } )
+            setEstado( { ...estado, [estado.agencias]: { items: "" } } )
             ejecutarConsultaRoles();
         },
         []
@@ -31,23 +30,258 @@ function Sistema (props) {
     cambioFiltroAg(codAg, localidad, estado){
 
         if(codAg !== undefined){
-            setEstado({filtroAgCodAg: codAg})
+            setEstado( { ...estado, [ filtroAgCodAg ]: codAg } )
         }
 
         if(localidad !== undefined){
-            setEstado({filtroAgLocalidad: localidad})
+            setEstado( { ...estado, [filtroAgLocalidad]: localidad } )
         }
 
         if(estado !== undefined){
             if(estado === "Habilitada"){
-                this.setState({filtroAgEstado: true})
+                setEstado( { ...estado, [filtroAgEstado]: true } )
             }else if(estado === "Deshabilitada"){
+                setEstado( { ...estado, [filtroAgEstado]: false } )
                 this.setState({filtroAgEstado: false})
             }
             
         }
 
     }
+
+    const cambioFiltroOp = (usr, nombre, apellido) => {
+
+        if(usr !== undefined){
+            setEstado( { ...estado, [filtroOpUsr]: usr } )
+        }
+
+        if(nombre !== undefined){
+            setEstado( { ...estado, [filtroOpNombre]: nombre } )
+        }
+
+        if(apellido !== undefined){
+            setEstado( { ...estado, [filtroOpApellido]: apellido } )
+        }
+    }
+
+    const handleBtnPanel = e => {
+
+        if( e.target.id === "sistAgBtn" ) {
+
+            setEstado( { ...estado, [estado.pagina]: 1 } )
+            $('#sistAgBtn').removeClass('btn-outline-dark')
+            $('#sistAgBtn').addClass('btn-dark')
+
+            $('#sistUsrBtn').removeClass('btn-dark')
+            $('#sistRolesBtn').removeClass('btn-dark')
+            $('#sistUsrBtn').addClass('btn-outline-dark')
+            $('#sistRolesBtn').addClass('btn-outline-dark')
+            
+        } else if (e.target.id === "sistUsrBtn") {
+
+            $('#sistUsrBtn').removeClass('btn-outline-dark')
+            $('#sistUsrBtn').addClass('btn-dark')
+
+            $('#sistAgBtn').removeClass('btn-dark')
+            $('#sistRolesBtn').removeClass('btn-dark')
+            $('#sistAgBtn').addClass('btn-outline-dark')
+            $('#sistRolesBtn').addClass('btn-outline-dark')
+
+            setEstado(estado.pagina = 2)
+            
+        } else if (e.target.id === "sistRolesBtn") {
+
+            $('#sistRolesBtn').removeClass('btn-outline-dark')
+            $('#sistRolesBtn').addClass('btn-dark')
+
+            $('#sistUsrBtn').removeClass('btn-dark')
+            $('#sistAgBtn').removeClass('btn-dark')
+            $('#sistUsrBtn').addClass('btn-outline-dark')
+            $('#sistAgBtn').addClass('btn-outline-dark')
+
+            setEstado(estado.pagina = 3)
+            
+        }
+
+    }
+
+    const ejecutarConsultaAgencias = pagina => {
+
+        let url = process.env.REACT_APP_WS_LISTADO_AGENCIAS;
+
+        let cerrarSesion = false;
+        let statusCode = "";
+
+        let condFiltro = null
+        let codOrg = $("#fieldorgSeleccionadaAg").val()
+
+        if( codOrg !== undefined && condFiltro === null ) {
+            condFiltro = "codigoOrganizacion=" + codOrg
+        } else if( codOrg !== undefined ) {
+            condFiltro = condFiltro + "&codigoOrganizacion=" + estado.filtroAgCodOrg
+        }
+
+        if( estado.filtroAgCodAg != undefined && condFiltro === null ) {
+            condFiltro = "codigo=" + estado.filtroAgCodAg
+        } else if ( estado.filtroAgCodAg != null ) {
+            condFiltro = condFiltro + "&codigo=" + estado.filtroAgCodAg
+        }
+
+        if(estado.filtroAgLocalidad != undefined && condFiltro === null) {
+            condFiltro = "localidad=" + estado.filtroAgLocalidad
+        } else if ( estado.filtroAgLocalidad != undefined ) {
+            condFiltro = condFiltro + "&localidad=" + estado.filtroAgLocalidad
+        }
+
+        if( estado.filtroAgEstado != undefined && condFiltro === null ) {
+            condFiltro = "habilitada=" + estado.filtroAgEstado
+        } else if ( estado.filtroAgEstado != undefined ) {
+            condFiltro = condFiltro + "&habilitada=" + estado.filtroAgEstado
+        }
+
+
+        if(isNaN(pagina)=== false){
+            if((pagina !== undefined || pagina !== NaN) && condFiltro === null){
+                condFiltro = "page="+(pagina-1).toString(); 
+            }else if (pagina != undefined || pagina !== NaN){
+                condFiltro = condFiltro + "&page="+(pagina-1).toString();
+            }
+        }
+
+        if(condFiltro != null){
+            url = url + "?" + condFiltro
+        }       
+
+        const timeOut = async () => {
+            try {
+
+                const data = fetchTimeout ( url, { 
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json; charset=utf-8',
+                        'Authorization': 'Bearer ' + props.getKeyLogin()
+                    },
+                }, process.env.REACT_APP_FETCH_TIMEOUT, 'Error de timeout')
+
+                .then( respPromise => {
+                    statusCode = respPromise.status;
+                    if ( respPromise.status === process.env.REACT_APP_CODIGO_CERRO_SESION ) {
+                        cerrarSesion = true;
+                    }
+                    return respPromise.json();
+                } )
+
+                .then(json => {
+                    if ( json.status === "ok" ) {
+                        setEstado({ ...estado, [agencias]: {
+                            totalItems: json.totalItems,
+                            totalPages: json.totalPages,
+                            currentPage: json.currentPage,
+                            items : json.items,
+                            paginado:true
+                        } } ) 
+                    } else { 
+                        props.mensajeErrorWS('Consulta Agencia', json.errores, cerrarSesion);                     
+                    }
+                } )
+
+            } catch( error ) {
+
+                props.mensajeErrorGeneral()	
+
+            }
+        }
+
+    }
+
+    const ejecutarConsultaRoles = () => {
+
+        let url = process.env.REACT_APP_WS_LISTADO_ROLES;
+
+        let cerrarSesion = false;
+
+        let statusCode = "";    
+
+        const timeOut = async() {
+            try {
+
+                const data = await fetchTimeout ( url, { 
+                    method: 'GET',
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json; charset=utf-8',
+                        'Authorization': 'Bearer ' + this.props.getKeyLogin()
+                    },
+                }, process.env.REACT_APP_FETCH_TIMEOUT, 'Error de timeout')
+                .then(respPromise => {
+                    statusCode = respPromise.status;
+                    if ( respPromise.status === process.env.REACT_APP_CODIGO_CERRO_SESION ) {
+                        cerrarSesion = true;
+                    }
+                    return respPromise.json();
+                })
+                .then( json => {
+                    if ( json.status === "ok" ) {
+                        setEstado( { ...estado, [roles]: json } )
+                    } else { 
+                        props.mensajeErrorWS( 'Consulta Roles', json.errores, cerrarSesion );                     
+                    }
+                })
+            } catch (e) {
+                props.mensajeErrorGeneral()
+            }
+        }
+
+    }
+
+    return (
+        <div>
+
+            <Animated animationIn="fadeIn">
+
+                <div className=" bg-light pr-3 pl-3 pt-2 mt-2 shadow mx-auto mb-2">
+                    <h4 className="bg-dark p-2 text-center text-light mx-auto mb-3">Panel de Sistema</h4>    
+
+                    <div className="row text-center pb-3">
+                        <div className="col-sm-4">
+                            <button className="btn btn-outline-dark w-75" onClick={handleBtnPanel} id="sistAgBtn">Agencias</button>
+                        </div>
+
+                        <div className="col-sm-4">
+                            <button className="btn btn-outline-dark w-75" onClick={handleBtnPanel}  id="sistUsrBtn">Operadores</button>
+                        </div>
+
+                        <div className="col-sm-4">
+                            <button className="btn btn-outline-dark w-75" onClick={handleBtnPanel}  id="sistRolesBtn">Roles</button>
+                        </div>
+                    </div>
+                   
+                </div>
+
+                <div id="sistemasCont">
+                    { estado.pagina === 1 &&
+                        <Agencias agencias={estado.agencias} cambioFiltroAg={cambioFiltroAg} getKeyLogin={props.getKeyLogin} ejecutarConsultaAgencias= {ejecutarConsultaAgencias} getOrganizaciones= {props.getOrganizaciones} mensajeErrorWS={props.mensajeErrorWS} mensajeErrorGeneral={props.mensajeErrorGeneral}/>
+                    }
+
+                    {estado.pagina === 2 &&
+                        <Operadores roles={estado.roles} ejecutarConsultaRoles={ejecutarConsultaRoles} operadores={estado.operadores} cambioFiltroOp={cambioFiltroOp} getKeyLogin={props.getKeyLogin} ejecutarConsultaOperadores= {ejecutarConsultaOperadores} getOrganizaciones= {props.getOrganizaciones} mensajeErrorWS={props.mensajeErrorWS} mensajeErrorGeneral={props.mensajeErrorGeneral}/>
+                    }
+
+                    {estado.pagina === 3 &&
+                        <Roles roles={estado.roles} getKeyLogin={props.getKeyLogin} ejecutarConsultaRoles={ejecutarConsultaRoles}  mensajeErrorWS={props.mensajeErrorWS} mensajeErrorGeneral={props.mensajeErrorGeneral}/>
+                    }
+                </div>
+
+            </Animated>
+
+        </div>            
+    )
+
+
+
+
+
 
 }
 
